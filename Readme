@@ -1,0 +1,90 @@
+Tienda Virtual - MugSolutions SAS
+Plataforma de comercio electrónico avanzada desarrollada de forma conjunta por los socios de MugSolutions SAS en Villavicencio, Meta, Colombia (2026). Este sistema está diseñado con altos estándares de arquitectura de software, seguridad y control transaccional para garantizar una operación robusta y confiable.
+
+🏗️ Arquitectura y Componentes del Sistema
+1. Gestión de Inventarios y Bloqueo de Stock
+Bloqueo Temporal de Inventario: Mecanismo de reserva de stock en Redis (o similar) durante el proceso de pago para evitar la sobreventa (race conditions) cuando múltiples usuarios intentan adquirir la última unidad disponible.
+
+Control de Stock en Tiempo Real: Actualización automática de las existencias tras la confirmación o cancelación de una orden.
+
+Alertas de Stock Bajo: Notificaciones automáticas al panel de administración cuando un producto alcanza su umbral mínimo.
+
+2. Transaccionalidad y Confiabilidad (Idempotencia)
+Idempotencia en la Compra: Uso de Idempotency Keys (Claves de Idempotencia) en las peticiones de pago y procesamiento de órdenes para asegurar que, si una petición de pago se duplica por fallos de red o reintentos del cliente, la transacción y el cargo se ejecuten y descuenten una sola vez.
+
+Control Transaccional (ACID): Manejo de transacciones atómicas en la base de datos para asegurar que el pago, la creación de la orden y el descuento de inventario ocurran de forma íntegra (si falla un paso, se revierte todo).
+
+3. Seguridad y Metodologías Seguras
+Metodologías de Desarrollo Seguro (Secure SDLC): Implementación de prácticas basadas en OWASP Top 10 desde la fase de diseño.
+
+Autenticación y Autorización Robusta:
+
+Tokens JWT (JSON Web Tokens) con mecanismos de expiración y renovación segura (Access Token / Refresh Token).
+
+Contraseñas cifradas mediante algoritmos fuertes como Argon2 o bcrypt.
+
+Protección contra Vulnerabilidades Comunes:
+
+Prevención contra Inyección SQL, XSS (Cross-Site Scripting) y CSRF.
+
+Limitación de tasas de peticiones (Rate Limiting) en endpoints críticos (login, pasarela de pagos) para evitar ataques de fuerza bruta y denegación de servicio (DDoS).
+
+Validación y Sanitización: Validación estricta de esquemas de datos tanto en el cliente como en el servidor.
+
+4. Roles y Control de Acceso (RBAC)
+Cliente / Comprador: Registro, inicio de sesión, gestión de perfil, historial de compras, seguimiento de envíos y carrito de compras.
+
+Administrador de Inventario: Gestión de productos, categorías, precios y control directo de stock.
+
+Administrador de Ventas / Operaciones: Visualización de órdenes, gestión de estados de entrega y procesamiento de devoluciones.
+
+Super Administrador: Control total del sistema, gestión de usuarios, roles, permisos y configuraciones globales de la tienda.
+
+5. Carrito de Compras
+Persistencia Híbrida: Soporte para carritos en sesiones anónimas (asociados a LocalStorage/Cookies) y migración automática al carrito de la cuenta del usuario al iniciar sesión.
+
+Cálculos Dinámicos: Suma de subtotales, aplicación de códigos de descuento/cupones, cálculo de impuestos y costos de envío basados en la ubicación.
+
+6. Elementos de Control y Auditoría
+Logs de Auditoría: Registro detallado de acciones críticas de los administradores y eventos del sistema (cambios de precios, modificaciones de stock, accesos no autorizados).
+
+Monitoreo y Métricas: Control de rendimiento de la API, tiempos de respuesta y detección de errores en tiempo real.
+
+7. Sistema de Notificaciones
+Notificaciones Transaccionales (Email/SMS/WhatsApp):
+
+Confirmación de registro de usuario.
+
+Recibo y confirmación de compra exitosa con clave de idempotencia/orden.
+
+Actualizaciones de estado del envío (En preparación, En camino, Entregado).
+
+Alertas Internas: Avisos al equipo de operaciones ante fallos en la pasarela de pagos o caídas del sistema de inventario.
+
+🛠️ Stack Tecnológico Sugerido
+Dado que el lenguaje está por definirse, se recomiendan opciones escalables que soporten alta concurrencia:
+
+Opción Web Moderna (Full-Stack JS/TS):
+
+Frontend: Next.js (React)
+
+Backend: Node.js con NestJS o Express
+
+Base de Datos Principal: PostgreSQL (para consistencia transaccional ACID)
+
+Caché y Bloqueos: Redis (para control de inventario temporal e idempotencia)
+
+Opción Empresarial (PHP / Laravel):
+
+Framework: Laravel (incluye excelentes herramientas nativas para colas, autenticación y manejo de bases de datos)
+
+Base de Datos / Caché: MySQL y Redis
+
+🚀 Próximos Pasos
+Definir el lenguaje de programación y los motores de base de datos/caché.
+
+Diseñar el diagrama entidad-relación (ER) haciendo énfasis en el módulo de órdenes, pagos e inventario.
+
+Establecer las políticas de ramas en Git (Gitflow) aplicando revisiones de código obligatorias por los socios.
+
+Desarrollar el núcleo transaccional (Inventario + Idempotencia de pagos) antes de construir las interfaces de usuario.
