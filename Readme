@@ -1,90 +1,64 @@
-Tienda Virtual - MugSolutions SAS
-Plataforma de comercio electrónico avanzada desarrollada de forma conjunta por los socios de MugSolutions SAS en Villavicencio, Meta, Colombia (2026). Este sistema está diseñado con altos estándares de arquitectura de software, seguridad y control transaccional para garantizar una operación robusta y confiable.
+# Tienda Virtual - MugSolutions SAS 🛒
 
-🏗️ Arquitectura y Componentes del Sistema
-1. Gestión de Inventarios y Bloqueo de Stock
-Bloqueo Temporal de Inventario: Mecanismo de reserva de stock en Redis (o similar) durante el proceso de pago para evitar la sobreventa (race conditions) cuando múltiples usuarios intentan adquirir la última unidad disponible.
+Plataforma de comercio electrónico avanzada desarrollada como un monolito robusto por los socios de **MugSolutions SAS** en **Villavicencio, Meta, Colombia (2026)**. Este sistema está diseñado bajo estrictos estándares de arquitectura de software, seguridad informática y control transaccional para garantizar una operación comercial altamente confiable y resistente a fallos.
 
-Control de Stock en Tiempo Real: Actualización automática de las existencias tras la confirmación o cancelación de una orden.
+---
 
-Alertas de Stock Bajo: Notificaciones automáticas al panel de administración cuando un producto alcanza su umbral mínimo.
+## 🏗️ Stack Tecnológico (Monolito Next.js)
 
-2. Transaccionalidad y Confiabilidad (Idempotencia)
-Idempotencia en la Compra: Uso de Idempotency Keys (Claves de Idempotencia) en las peticiones de pago y procesamiento de órdenes para asegurar que, si una petición de pago se duplica por fallos de red o reintentos del cliente, la transacción y el cargo se ejecuten y descuenten una sola vez.
+* **Framework Full-Stack:** [Next.js](https://nextjs.org/) (App Router, Server Actions, API Routes)
+* **Lenguaje:** TypeScript
+* **Estilos:** Tailwind CSS
+* **Base de Datos Principal:** PostgreSQL (Consistencia transaccional ACID)
+* **Caché y Control de Concurrencia:** Redis (Bloqueos temporales e Idempotencia)
+* **ORM / Query Builder:** Prisma o Drizzle ORM
 
-Control Transaccional (ACID): Manejo de transacciones atómicas en la base de datos para asegurar que el pago, la creación de la orden y el descuento de inventario ocurran de forma íntegra (si falla un paso, se revierte todo).
+---
 
-3. Seguridad y Metodologías Seguras
-Metodologías de Desarrollo Seguro (Secure SDLC): Implementación de prácticas basadas en OWASP Top 10 desde la fase de diseño.
+## 🏛️ Arquitectura y Componentes del Sistema
 
-Autenticación y Autorización Robusta:
+### 1. Gestión de Inventarios y Bloqueo de Stock
+* **Bloqueo Temporal:** Mecanismo de reserva de stock en Redis durante el proceso de pago para prevenir *race conditions* (sobreventa) cuando múltiples usuarios compran la última unidad disponible.
+* **Control en Tiempo Real:** Actualización automatizada de existencias tras confirmar o cancelar una orden.
+* **Alertas de Stock Bajo:** Notificaciones automáticas al panel de administración al alcanzar los umbrales mínimos.
 
-Tokens JWT (JSON Web Tokens) con mecanismos de expiración y renovación segura (Access Token / Refresh Token).
+### 2. Transaccionalidad y Confiabilidad (Idempotencia)
+* **Idempotencia en la Compra:** Uso de *Idempotency Keys* en las peticiones de pago para asegurar que duplicidades por fallos de red o reintentos del cliente ejecuten el cargo una sola vez.
+* **Control Transaccional (ACID):** Bloques atómicos en PostgreSQL donde el pago, la creación de la orden y el descuento de inventario ocurren de forma íntegra (reversión total ante cualquier fallo).
 
-Contraseñas cifradas mediante algoritmos fuertes como Argon2 o bcrypt.
+### 3. Seguridad y Metodologías Seguras
+* **Secure SDLC:** Prácticas basadas en OWASP Top 10 desde la fase de diseño.
+* **Autenticación Robusta:** JWT (Access Token / Refresh Token) con contraseñas cifradas mediante Argon2 o bcrypt.
+* **Protección Integral:** Prevención contra Inyección SQL, XSS, CSRF y limitación de tasas (*Rate Limiting*) en endpoints críticos.
 
-Protección contra Vulnerabilidades Comunes:
+### 4. Roles y Control de Acceso (RBAC)
+* **Cliente / Comprador:** Perfil, historial, seguimiento de envíos y carrito.
+* **Administrador de Inventario:** Gestión de productos, categorías, precios y stock.
+* **Administrador de Ventas / Operaciones:** Órdenes, estados de entrega y devoluciones.
+* **Super Administrador:** Control total, usuarios, roles, permisos y configuraciones globales.
 
-Prevención contra Inyección SQL, XSS (Cross-Site Scripting) y CSRF.
+### 5. Carrito de Compras
+* **Persistencia Híbrida:** Soporte para carritos en sesiones anónimas (LocalStorage/Cookies) con migración automática al iniciar sesión.
+* **Cálculos Dinámicos:** Subtotales, cupones de descuento, impuestos y costos de envío geolocalizados.
 
-Limitación de tasas de peticiones (Rate Limiting) en endpoints críticos (login, pasarela de pagos) para evitar ataques de fuerza bruta y denegación de servicio (DDoS).
+### 6. Control, Auditoría y Monitoreo
+* **Logs de Auditoría:** Registro detallado de acciones críticas administrativas y eventos del sistema.
+* **Métricas:** Control de rendimiento de la API y detección de errores en tiempo real.
 
-Validación y Sanitización: Validación estricta de esquemas de datos tanto en el cliente como en el servidor.
+### 7. Sistema de Notificaciones
+* **Canales Multiplataforma (Email / SMS / WhatsApp):** Confirmaciones de registro, recibos de compra con clave de idempotencia y actualizaciones de envíos.
+* **Alertas Internas:** Avisos operacionales ante fallos de pasarela o caídas de inventario.
 
-4. Roles y Control de Acceso (RBAC)
-Cliente / Comprador: Registro, inicio de sesión, gestión de perfil, historial de compras, seguimiento de envíos y carrito de compras.
+---
 
-Administrador de Inventario: Gestión de productos, categorías, precios y control directo de stock.
+## 🚀 Guía de Configuración e Instalación
 
-Administrador de Ventas / Operaciones: Visualización de órdenes, gestión de estados de entrega y procesamiento de devoluciones.
+### Prerrequisitos
+* Node.js (versión 18 o superior recomendada)
+* Docker y Docker Compose (para levantar PostgreSQL y Redis localmente)
 
-Super Administrador: Control total del sistema, gestión de usuarios, roles, permisos y configuraciones globales de la tienda.
-
-5. Carrito de Compras
-Persistencia Híbrida: Soporte para carritos en sesiones anónimas (asociados a LocalStorage/Cookies) y migración automática al carrito de la cuenta del usuario al iniciar sesión.
-
-Cálculos Dinámicos: Suma de subtotales, aplicación de códigos de descuento/cupones, cálculo de impuestos y costos de envío basados en la ubicación.
-
-6. Elementos de Control y Auditoría
-Logs de Auditoría: Registro detallado de acciones críticas de los administradores y eventos del sistema (cambios de precios, modificaciones de stock, accesos no autorizados).
-
-Monitoreo y Métricas: Control de rendimiento de la API, tiempos de respuesta y detección de errores en tiempo real.
-
-7. Sistema de Notificaciones
-Notificaciones Transaccionales (Email/SMS/WhatsApp):
-
-Confirmación de registro de usuario.
-
-Recibo y confirmación de compra exitosa con clave de idempotencia/orden.
-
-Actualizaciones de estado del envío (En preparación, En camino, Entregado).
-
-Alertas Internas: Avisos al equipo de operaciones ante fallos en la pasarela de pagos o caídas del sistema de inventario.
-
-🛠️ Stack Tecnológico Sugerido
-Dado que el lenguaje está por definirse, se recomiendan opciones escalables que soporten alta concurrencia:
-
-Opción Web Moderna (Full-Stack JS/TS):
-
-Frontend: Next.js (React)
-
-Backend: Node.js con NestJS o Express
-
-Base de Datos Principal: PostgreSQL (para consistencia transaccional ACID)
-
-Caché y Bloqueos: Redis (para control de inventario temporal e idempotencia)
-
-Opción Empresarial (PHP / Laravel):
-
-Framework: Laravel (incluye excelentes herramientas nativas para colas, autenticación y manejo de bases de datos)
-
-Base de Datos / Caché: MySQL y Redis
-
-🚀 Próximos Pasos
-Definir el lenguaje de programación y los motores de base de datos/caché.
-
-Diseñar el diagrama entidad-relación (ER) haciendo énfasis en el módulo de órdenes, pagos e inventario.
-
-Establecer las políticas de ramas en Git (Gitflow) aplicando revisiones de código obligatorias por los socios.
-
-Desarrollar el núcleo transaccional (Inventario + Idempotencia de pagos) antes de construir las interfaces de usuario.
+### 1. Clonar el repositorio y configurar variables de entorno
+```bash
+git clone [https://github.com/MugSolutions-SAS/tienda-virtual.git](https://github.com/MugSolutions-SAS/tienda-virtual.git)
+cd tienda-virtual
+cp .env.example .env
