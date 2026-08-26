@@ -60,5 +60,23 @@ Plataforma de comercio electrónico avanzada desarrollada como un monolito robus
 ### 1. Clonar el repositorio y configurar variables de entorno
 ```bash
 git clone [https://github.com/MugSolutions-SAS/MugShop.git](https://github.com/MugSolutions-SAS/MugShop.git)
-cd tienda-virtual
+cd MugShop
 cp .env.example .env
+
+
+
+### 2. Reglas de ORO 
+
+FEAT: Feature, para todo lo referente a nuevas funcionalidades, modulos o secciones
+FIX: Reparación, arreglos, mantenimientos de funcionalidades, modulos o secciones
+
+##Notación 
+
+FEAT/FIX[Seccion, modulo] : Descripción corta acción realizada
+
+
+## Ramas
+
+Main 
+
+__Por definir notación de otras
