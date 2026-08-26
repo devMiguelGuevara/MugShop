@@ -59,6 +59,6 @@ Plataforma de comercio electrónico avanzada desarrollada como un monolito robus
 
 ### 1. Clonar el repositorio y configurar variables de entorno
 ```bash
-git clone [https://github.com/MugSolutions-SAS/tienda-virtual.git](https://github.com/MugSolutions-SAS/tienda-virtual.git)
+git clone [https://github.com/MugSolutions-SAS/MugShop.git](https://github.com/MugSolutions-SAS/MugShop.git)
 cd tienda-virtual
 cp .env.example .env
