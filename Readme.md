@@ -69,6 +69,7 @@ cp .env.example .env
 ### 2. Reglas de ORO 
 
 **FEAT:** Feature, para todo lo referente a nuevas funcionalidades, modulos o secciones
+
 **FIX:** Reparación, arreglos, mantenimientos de funcionalidades, modulos o secciones
 
 ## Notación 
