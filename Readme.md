@@ -71,7 +71,7 @@ cp .env.example .env
 FEAT: Feature, para todo lo referente a nuevas funcionalidades, modulos o secciones
 FIX: Reparación, arreglos, mantenimientos de funcionalidades, modulos o secciones
 
-##Notación 
+## Notación 
 
 FEAT/FIX[Seccion, modulo] : Descripción corta acción realizada
 
