@@ -64,6 +64,7 @@ cd MugShop
 cp .env.example .env
 
 
+```
 
 ### 2. Reglas de ORO 
 
